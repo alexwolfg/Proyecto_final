@@ -1,0 +1,33 @@
+name: Backend workflow
+
+#Triggers on demand and pull request with changes on main.
+on:
+  workflow_dispatch:
+  push:
+    pull-request:
+      types:
+        - opened
+      branches:
+        - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Use node js
+        uses: actions/setup-node@v3
+        with:
+          node-version: latest
+
+      - name: Run the test
+        run: cd starter/backend && npm test
+
+      - name: Run the linter
+        run: cd cd starter/backend && npm run 
+        
+      - name: Building the app with Docker
+        run: echo "Working so far"
+

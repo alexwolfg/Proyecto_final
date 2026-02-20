@@ -3,12 +3,14 @@ name: Backend workflow
 #Triggers on demand and pull request with changes on main.
 on:
   workflow_dispatch:
+  pull_request:
+    types:
+      - opened
+    branches:
+      - main
   push:
-    pull-request:
-      types:
-        - opened
-      branches:
-        - main
+    branches:
+      - main
 
 jobs:
   build:
@@ -24,13 +26,10 @@ jobs:
 
       - name: Install dependencies
         run: cd starter/backend && pip install pipenv && pipenv install --dev
-
       - name: Run the linter
         run: cd starter/backend && pipenv run lint
-
       - name: Run the test
         run: cd starter/backend && pipenv run test
-          
       - name: Building the app with Docker
         run: |
           cd starter/backend
@@ -40,12 +39,13 @@ jobs:
           docker run -p 5000:5000 --name backend_container -d backend_image:$GITHUB_SHA 
         # Check the app
           curl http://localhost:5000/movies
+          sleep 60
         #Review logs
-          docker logs -f backend_container
+          docker logs backend_container
         # Expected output
-          {"movies":[{"id":"123","title":"Top Gun: Maverick"},{"id":"456","title":"Sonic the Hedgehog"},{"id":"789","title":"A Quiet Place"}]}
+        #  {"movies":[{"id":"123","title":"Top Gun: Maverick"},{"id":"456","title":"Sonic the Hedgehog"},{"id":"789","title":"A Quiet Place"}]}
         # Stop the application
-          docker stop
+          docker stop backend_container
 
 
 

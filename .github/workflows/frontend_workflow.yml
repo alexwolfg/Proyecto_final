@@ -29,7 +29,7 @@ jobs:
         run: cd starter/frontend && npm test
 
       - name: Run the linter
-        run: cd cd starter/frontend && npm run 
+        run: cd starter/frontend && npm run 
         
       - name: Building the app with Docker
         run: echo "Working so far"

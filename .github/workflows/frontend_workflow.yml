@@ -26,12 +26,12 @@ jobs:
 
       - name: Install dependencies on package.json
         run: cd starter/frontend && npm ci
-        
+
       - name: Run the test
         run: cd starter/frontend && CI=true npm test
 
       - name: Run the linter
-        run: cd starter/frontend && npm run lint
+        run: cd starter/frontend && npm run lint -- --fix
 
       - name: Building the app with Docker
         run: |

@@ -23,7 +23,7 @@ jobs:
           node-version: latest
 
       - name: Install dependencies on package.json
-        run: npm install
+        run: cd starter/backend && npm install
         
       - name: Run the test
         run: cd starter/backend && npm test

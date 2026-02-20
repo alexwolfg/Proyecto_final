@@ -32,5 +32,5 @@ jobs:
         run: cd starter/backend && pipenv run test 
         
       - name: Building the app with Docker
-        run: echo "Working so far"
+        run: pipenv run serve
 

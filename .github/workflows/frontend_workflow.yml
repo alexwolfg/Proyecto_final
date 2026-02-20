@@ -23,13 +23,13 @@ jobs:
           node-version: latest
 
       - name: Install dependencies on package.json
-        run: cd starter/frontend && npm install
+        run: cd starter/frontend && npm ci
         
       - name: Run the test
-        run: cd starter/frontend && npm test
+        run: cd starter/frontend && CI=true npm test
 
       - name: Run the linter
-        run: cd starter/frontend && npm run 
+        run: cd starter/frontend && npm run lint
         
       - name: Building the app with Docker
         run: |

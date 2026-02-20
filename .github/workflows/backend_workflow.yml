@@ -29,8 +29,8 @@ jobs:
         run: cd starter/backend && pipenv run lint
 
       - name: Run the test
-        run: cd starter/backend && pipenv run test 
-        
+        run: cd starter/backend && pipenv run test
+          
       - name: Building the app with Docker
         run: |
           cd starter/backend

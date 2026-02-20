@@ -17,7 +17,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-     
+      - name: Setup python
+        uses: actions/setup-python@v6
+        with:
+          python-version: latest
 
       - name: Install dependencies
         run: cd starter/backend && pip install pipenv && pipenv install
@@ -31,7 +34,3 @@ jobs:
       - name: Building the app with Docker
         run: echo "Working so far"
 
- - name: Setup python
-        uses: actions/setup-python@v6
-        with:
-          python-version: latest

@@ -34,5 +34,7 @@ jobs:
       - name: Building the app with Docker
         run: |
           cd starter/frontend
-          npm ci
-          REACT_APP_MOVIE_API_URL=http://localhost:5000 npm start
+        #build the image
+          docker build --build-arg=REACT_APP_MOVIE_API_URL=http://localhost:5000 --tag=frontend_image:$GITHUB_SHA .
+        #Running the container
+          docker run --name frontend_container -p 3000:3000 -d frontend_image:$GITHUB_SHA

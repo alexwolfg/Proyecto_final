@@ -34,5 +34,18 @@ jobs:
       - name: Building the app with Docker
         run: |
           cd starter/backend
-          pipenv run serve
+        #Build the image
+          docker build --tag backend_image:$GITHUB_SHA .
+        #Run the image
+          docker run -p 5000:5000 --name backend_container -d backend_image:$GITHUB_SHA 
+        # Check the app
+          curl http://localhost:5000/movies
+        #Review logs
+          docker logs -f backend_container
+        # Expected output
+          {"movies":[{"id":"123","title":"Top Gun: Maverick"},{"id":"456","title":"Sonic the Hedgehog"},{"id":"789","title":"A Quiet Place"}]}
+        # Stop the application
+          docker stop
+
+
 

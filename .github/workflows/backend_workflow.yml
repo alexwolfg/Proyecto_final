@@ -32,5 +32,7 @@ jobs:
         run: cd starter/backend && pipenv run test 
         
       - name: Building the app with Docker
-        run: pipenv run serve
+        run: |
+          cd starter/backend
+          pipenv run serve
 

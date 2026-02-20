@@ -32,4 +32,7 @@ jobs:
         run: cd starter/frontend && npm run 
         
       - name: Building the app with Docker
-        run: echo "Working so far"
+        run: |
+          cd starter/frontend
+          npm ci
+          REACT_APP_MOVIE_API_URL=http://localhost:5000 npm start

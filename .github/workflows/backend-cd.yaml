@@ -1,4 +1,4 @@
-name: Backend Continuous Integration
+name: Backend Continuous Deployment
 
 #Triggers on demand and pull request with changes on main.
 on:

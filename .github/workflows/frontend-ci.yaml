@@ -1,4 +1,4 @@
-name: Frontend workflow
+name: Frontend Continuous Integration
 
 #Triggers on demand and pull request with changes on main.
 on:

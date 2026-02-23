@@ -47,7 +47,7 @@ jobs:
       - name: Building the kurbernetes manifest
         run: |
           cd starter/frontend/k8s
-          aws eks update-kubeconfig
+          #aws eks update-kubeconfig
 
           kustomize edit set image frontend=$ECR_URL:$GITHUB_SHA
 

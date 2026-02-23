@@ -76,9 +76,9 @@ jobs:
           cd starter/frontend
           #build the image
           docker build -t backend_image:latest
-          docker build --build-arg=$REACT_APP_MOVIE_API_URL --tag=frontend_image:$GITHUB_SHA .
+          docker build --build-arg=$REACT_APP_MOVIE_API_URL --tag=frontend_image:${{ github.sha }} .
           #Running the container
-          docker run --name frontend_container -p 3000:3000 -d frontend_image:$GITHUB_SHA
+          docker run --name frontend_container -p 3000:3000 -d frontend_image:${{ github.sha }}
 
       - name: Building the kurbernetes manifest
         run: |

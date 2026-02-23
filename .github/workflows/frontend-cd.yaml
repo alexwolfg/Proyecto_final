@@ -75,7 +75,7 @@ jobs:
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           REPOSITORY: project_cicd/final_project
-          IMAGE_TAG: ${{ github_sha }}
+          IMAGE_TAG: ${{ github.sha }}
         run: |
           cd starter/frontend
           #build the image
@@ -87,7 +87,7 @@ jobs:
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           REPOSITORY: project_cicd/final_project
-          IMAGE_TAG: ${{ github_sha }}
+          IMAGE_TAG: ${{ github.sha }}
         run: |
           cd starter/frontend/k8s
           #aws eks update-kubeconfig

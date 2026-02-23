@@ -13,6 +13,7 @@ on:
       - main
 env:
   ECR_URL: 808776853110.dkr.ecr.us-east-1.amazonaws.com/project_cicd/final_project
+  
 jobs:
   build:
     runs-on: ubuntu-latest

@@ -58,19 +58,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Setup python
-        uses: actions/setup-python@v6
-        with:
-          python-version: '3.10'
-          cache: 'pipenv'
-          cache-dependency-path: 'starter/backend/pipfile.lock'
-
-      - name: Install dependencies
-        run: cd starter/backend && pip install pipenv && pipenv install --dev
-
-      - name: Run the test
-        run: cd starter/backend && pipenv run test
     
       - name: Building the app with Docker
         run: |

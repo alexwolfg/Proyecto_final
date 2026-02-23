@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: latest
           cache: npm
-          cache-dependency-path: package-lock.json
+          cache-dependency-path: starter/frontend/package-lock.json
 
       - name: Install dependencies on package.json
         run: cd starter/frontend && npm ci
@@ -43,7 +43,7 @@ jobs:
         with:
           node-version: latest
           cache: npm
-          cache-dependency-path: package-lock.json
+          cache-dependency-path: starter/frontend/package-lock.json
 
       - name: Install dependencies on package.json
         run: cd starter/frontend && npm ci
@@ -58,19 +58,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Use node js
-        uses: actions/setup-node@v3
-        with:
-          node-version: latest
-          cache: npm
-          cache-dependency-path: package-lock.json
-
-      - name: Install dependencies on package.json
-        run: cd starter/frontend && npm ci
-
-      - name: Run the test
-        run: cd starter/frontend && CI=true npm test
-
       - name: Building the app with Docker
         run: |
           cd starter/frontend
@@ -79,12 +66,3 @@ jobs:
           docker build --build-arg=$REACT_APP_MOVIE_API_URL --tag=frontend_image:${{ github.sha }} .
           #Running the container
           docker run --name frontend_container -p 3000:3000 -d frontend_image:${{ github.sha }}
-
-      - name: Building the kurbernetes manifest
-        run: |
-          cd starter/frontend/k8s
-          #aws eks update-kubeconfig
-
-          kustomize edit set image frontend=$ECR_URL:$GITHUB_SHA
-
-          kustomize build | kubectl apply -f -

@@ -1,0 +1,97 @@
+name: Frontend Continuous Deployment
+
+#Triggers on demand and pull request with changes on main.
+on:
+  workflow_dispatch:
+  pull_request:
+    types:
+      - opened
+    branches:
+      - main
+  push:
+    branches:
+      - main
+env:
+  REACT_APP_MOVIE_API_URL: http://localhost:5000
+jobs:
+  lint-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Use node js
+        uses: actions/setup-node@v3
+        with:
+          node-version: latest
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies on package.json
+        run: cd starter/frontend && npm ci
+
+      - name: Run the linter
+        run: cd starter/frontend && npm run lint -- --fix
+
+  test-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Use node js
+        uses: actions/setup-node@v3
+        with:
+          node-version: latest
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies on package.json
+        run: cd starter/frontend && npm ci
+
+      - name: Run the test
+        run: cd starter/frontend && CI=true npm test
+
+  build-job:
+    needs: [lint-job, test-job]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v6.0.0
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region: us-east-1
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Building the app with Docker and pushing to ECR
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: project_cicd/final_project
+          IMAGE_TAG: ${{ github_sha }}
+        run: |
+          cd starter/frontend
+          #build the image
+          docker build --build-arg=$REACT_APP_MOVIE_API_URL -t $REGISTRY/$REPOSITORY:$IMAGE_TAG . .
+          #Push de image
+          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+
+      - name: Building the kurbernetes manifest and deploy
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: project_cicd/final_project
+          IMAGE_TAG: ${{ github_sha }}
+        run: |
+          cd starter/frontend/k8s
+          #aws eks update-kubeconfig
+
+          kustomize edit set image frontend=$REGISTRY/$REPOSITORY:$IMAGE_TAG
+
+          kustomize build | kubectl apply -f -

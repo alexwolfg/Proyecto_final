@@ -1,0 +1,94 @@
+name: Backend Continuous Integration
+
+#Triggers on demand and pull request with changes on main.
+on:
+  workflow_dispatch:
+  pull_request:
+    types:
+      - opened
+    branches:
+      - main
+  push:
+    branches:
+      - main
+env:
+  ECR_URL: 808776853110.dkr.ecr.us-east-1.amazonaws.com/project_cicd/final_project
+  
+jobs:
+  lint-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.10'
+          cache: 'pipenv'
+          cache-dependency-path: 'starter/backend/pipfile.lock'
+
+      - name: Install dependencies
+        run: cd starter/backend && pip install pipenv && pipenv install --dev
+
+      - name: Run the linter
+        run: cd starter/backend && pipenv run lint
+  test-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.10'
+          cache: 'pipenv'
+          cache-dependency-path: 'starter/backend/pipfile.lock'
+
+      - name: Install dependencies
+        run: cd starter/backend && pip install pipenv && pipenv install --dev
+
+      - name: Run the test
+        run: cd starter/backend && pipenv run test
+    
+  build-job:
+    needs: [lint-job, test-job]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.10'
+          cache: 'pipenv'
+          cache-dependency-path: 'starter/backend/pipfile.lock'
+
+      - name: Install dependencies
+        run: cd starter/backend && pip install pipenv && pipenv install --dev
+
+      - name: Run the test
+        run: cd starter/backend && pipenv run test
+    
+      - name: Building the app with Docker
+        run: |
+          cd starter/backend
+          #Build the image
+          docker build --tag backend_image:$GITHUB_SHA .
+          #Run the image
+          docker run -p 5000:5000 --name backend_container -d backend_image:$GITHUB_SHA 
+          # Check the app
+          curl http://localhost:5000/movies
+          sleep 60
+          #Review logs
+          docker logs backend_container
+          # Expected output
+          #  {"movies":[{"id":"123","title":"Top Gun: Maverick"},{"id":"456","title":"Sonic the Hedgehog"},{"id":"789","title":"A Quiet Place"}]}
+          # Stop the application
+          docker stop backend_container
+
+
+
+

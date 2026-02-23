@@ -252,6 +252,7 @@ data "aws_iam_policy_document" "assume_role_policy" {
   }
 }
 
+
 ######################
 # CodeBuild Resources
 ######################
@@ -312,6 +313,7 @@ resource "aws_iam_role_policy_attachment" "codebuild" {
 ####################
 # Github Action role
 ####################
+
 resource "aws_iam_user" "github_action_user" {
   name = "github-action-user"
 }

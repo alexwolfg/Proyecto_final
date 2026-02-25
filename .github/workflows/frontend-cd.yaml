@@ -13,6 +13,7 @@ on:
       - main
 env:
   REACT_APP_MOVIE_API_URL: http://localhost:5000
+
 jobs:
   lint-job:
     runs-on: ubuntu-latest
@@ -79,7 +80,7 @@ jobs:
         run: |
           cd starter/frontend
           #build the image
-          docker build --build-arg=$REACT_APP_MOVIE_API_URL -t $REGISTRY/$REPOSITORY:$IMAGE_TAG . .
+          docker build --build-arg REACT_APP_MOVIE_API_URL=$REACT_APP_MOVIE_API_URL -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
           #Push de image
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 

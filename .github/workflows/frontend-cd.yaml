@@ -91,7 +91,7 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
         run: |
           cd starter/frontend/k8s
-          #aws eks update-kubeconfig
+          aws eks update-kubeconfig
 
           kustomize edit set image frontend=$REGISTRY/$REPOSITORY:$IMAGE_TAG
 

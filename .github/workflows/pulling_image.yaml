@@ -38,6 +38,11 @@ jobs:
           REPOSITORY: project_cicd/final_project
           IMAGE_TAG: a6d641fa3a30d984c6fa82d3edecd550f589c6da
         run: |
+          run: |
+          echo "ECR_REGISTRY: $ECR_REGISTRY"
+          echo "ECR_REPOSITORY: $ECR_REPOSITORY"
+          echo "IMAGE_TAG: $IMAGE_TAG"
+          echo "Imagen completa: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
           docker save $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -o finalProj-image.tar
 
       - name: Compress image

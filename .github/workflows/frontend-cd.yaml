@@ -3,14 +3,14 @@ name: Frontend Continuous Deployment
 #Triggers on demand and pull request with changes on main.
 on:
   workflow_dispatch:
-  pull_request:
-    types:
-      - opened
-    branches:
-      - main
-  push:
-    branches:
-      - main
+  # pull_request:
+  #   types:
+  #     - opened
+  #   branches:
+  #     - main
+  # push:
+  #   branches:
+  #     - main
 env:
   REACT_APP_MOVIE_API_URL: http://localhost:5000
 

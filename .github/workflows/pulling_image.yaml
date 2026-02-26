@@ -26,8 +26,8 @@ jobs:
       - name: Download image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          REPOSITORY: project_cicd/final_project
-          IMAGE_TAG: a6d641fa3a30d984c6fa82d3edecd550f589c6da
+          REPOSITORY: 'project_cicd/final_project'
+          IMAGE_TAG: 'a6d641fa3a30d984c6fa82d3edecd550f589c6da'
         run: |
           docker pull $ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG
           docker images
@@ -35,8 +35,8 @@ jobs:
       - name: Save image as tar
         env: 
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          REPOSITORY: project_cicd/final_project
-          IMAGE_TAG: a6d641fa3a30d984c6fa82d3edecd550f589c6da
+          REPOSITORY: 'project_cicd/final_project'
+          IMAGE_TAG: 'a6d641fa3a30d984c6fa82d3edecd550f589c6da'
         run: |
           echo "ECR_REGISTRY: $ECR_REGISTRY"
           echo "ECR_REPOSITORY: $ECR_REPOSITORY"

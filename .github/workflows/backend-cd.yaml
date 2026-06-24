@@ -97,7 +97,7 @@ jobs:
 
           kustomize edit set image frontend=$REGISTRY/$REPOSITORY:$GITHUB_SHA
 
-          kustomize build | kubectl apply -f -
+          kustomize build | kubectl apply --validate=false -f -
 
 
 

@@ -75,7 +75,7 @@ jobs:
       - name: Building the app with Docker and pushing to ECR
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          REPOSITORY: project_cicd/final_project
+          REPOSITORY: project_cicd/pipelines
           IMAGE_TAG: ${{ github.sha }}
         run: |
           cd starter/frontend

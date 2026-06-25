@@ -89,7 +89,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          REPOSITORY: project_cicd/pipelines
+          REPOSITORY: project_cicd/pipelines_backend
           IMAGE_TAG: ${{ github.sha }}
         run: |
           cd starter/backend/k8s

@@ -82,8 +82,6 @@ jobs:
           docker build --tag $REGISTRY/$REPOSITORY:$IMAGE_TAG .
           #Push the image
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
-          # Esto le dice a K8s: "Oye, ya está la nueva imagen en ECR, descárgala"
-          kubectl set image deployment/frontend frontend=$REGISTRY/$REPOSITORY:$IMAGE_TAG -n default
 
       - name: Build the Kubernetes manifest
         env:

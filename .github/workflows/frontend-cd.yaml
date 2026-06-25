@@ -83,8 +83,6 @@ jobs:
           docker build --build-arg REACT_APP_MOVIE_API_URL=$REACT_APP_MOVIE_API_URL -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
           #Push de image
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
-          # Esto le dice a K8s: "Oye, ya está la nueva imagen en ECR, descárgala"
-          kubectl set image deployment/frontend frontend=$REGISTRY/$REPOSITORY:$IMAGE_TAG -n default
 
       - name: Building the kurbernetes manifest and deploy
         env:

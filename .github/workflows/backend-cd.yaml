@@ -97,7 +97,7 @@ jobs:
           cd starter/backend/k8s
           aws eks update-kubeconfig --name final-project --region us-east-1
 
-          kustomize edit set image frontend=$REGISTRY/$REPOSITORY:$GITHUB_SHA
+          kustomize edit set image backend=$REGISTRY/$REPOSITORY:$GITHUB_SHA
 
           kustomize build | kubectl apply --validate=false -f -
 

@@ -9,6 +9,8 @@ on:
   push:
     branches:
       - main
+env:
+  REACT_APP_MOVIE_API_URL: http://localhost:5000
 
 jobs:
   lint-job:
@@ -60,6 +62,8 @@ jobs:
         run: |
           cd starter/frontend
           #build the image
-          docker build --build-arg REACT_APP_MOVIE_API_URL=$REACT_APP_MOVIE_API_URL --tag=frontend_image:${{ github.sha }} .
+          docker build \
+            --build-arg REACT_APP_MOVIE_API_URL=${{ env.REACT_APP_MOVIE_API_URL }} \
+            --tag=frontend_image:${{ github.sha }} .
           #Running the container
           docker run --name frontend_container -p 3000:3000 -d frontend_image:${{ github.sha }}

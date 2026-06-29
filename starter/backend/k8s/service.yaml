@@ -4,6 +4,10 @@ metadata:
   name: backend
   labels:
     app: backend
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-healthcheck-path: "/movies"
+    service.beta.kubernetes.io/aws-load-balancer-healthcheck-port: "5000"
+    service.beta.kubernetes.io/aws-load-balancer-healthcheck-protocol: "http"
 spec:
   type: LoadBalancer
   selector:
